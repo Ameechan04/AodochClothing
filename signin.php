@@ -4,6 +4,9 @@
     
     <?php
     
+
+    
+    
     
     $host = "devweb2024.cis.strath.ac.uk";
     $user = get_user();
@@ -15,7 +18,7 @@
         die("connection failed: " . $conn -> connect_error);
     }
     
-    $sql = "SELECT * FROM `accounts_info`;";
+    $sql = "SELECT * FROM `account`;";
     $result = $conn->query($sql);
     
     if (!$result) {
@@ -97,7 +100,120 @@
     
     } elseif (isset($_POST["signUp"])) {
         echo 'SIGN UP CLICKED!';
-        echo 'SIGN UP TO BE IMPLEMENTED';
+        $NewUsername = '';
+        if (isset($_POST["newUsername"]) && $_POST["newUsername"] !== "") {
+            $NewUsername = strip_tags($_POST["newUsername"]);
+            $valid = true;
+        } else {
+            $valid = false;
+            $error_count++;
+            $error_messages[$error_count] = 'Please enter a username.';
+        }
+
+
+
+
+        if (isset($_POST["newPassword"]) && $_POST["newPassword"] !== "") {
+            $password = strip_tags($_POST["newPassword"]);
+            if (strlen($password) >= 8) {
+                $valid = true;
+            } else {
+                $valid = false;
+                $error_count++;
+                $error_messages[$error_count] = 'Password must be longer than 7 characters';
+            }
+
+        } else {
+            $valid = false;
+            $error_count++;
+            $error_messages[$error_count] = 'Please enter a password.';
+        }
+
+        $passwordC = '';
+        if (isset($_POST["confirmPassword"]) && $_POST["confirmPassword"] !== "") {
+            $passwordC = strip_tags($_POST["confirmPassword"]);
+            $valid = true;
+        } else {
+            $valid = false;
+            $error_count++;
+            $error_messages[$error_count] = 'Please confirm your password';
+        }
+        if ($valid) {
+            if ($password === $passwordC) {
+                $valid = true;
+            } else {
+                $valid = false;
+                $error_count++;
+                $error_messages[$error_count] = 'Passwords do not match, please re-enter';
+            }
+        }
+
+        if (isset($_POST["newEmail"]) && ($_POST["newEmail"] !== "") && filter_var($_POST["newEmail"], FILTER_VALIDATE_EMAIL)) {
+            $email = strip_tags($_POST["newEmail"]);
+        } else {
+            $error_count++;
+            $error_messages[$error_count] = 'Please enter a valid email address.';
+            $valid = false;
+        }
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                if ($row["account_name"] === $NewUsername) {
+                    $match = true;
+                    $error_count++;
+                    $error_messages[$error_count] = 'An account already exists with that name, please enter another';
+                    $valid = false;
+                    break;
+                }
+            }
+        }
+
+
+        if ($valid && $email !== null) {
+
+            mail($email, "Aodach Confirmation", "Dear ". $NewUsername . ",\nThank you for signing up to Aodach.\n" . "We hope you enjoy your time using our website.\n" . "Here's a link back to the sign in page: \nhttps://devweb2024.cis.strath.ac.uk/~xmb22143/Aodach%20Website/signin.php");
+            echo "<br>" . 'A confirmation email has been sent to ' . $email;
+
+            $date = date("Y:m:d");
+            $time = date("H:i:s");
+            $dateTime = $date . ' ' . $time;
+
+            $sql = "INSERT INTO `xmb22143`.`account` (`account_name`, `email`, `password`) 
+VALUES ('$NewUsername', '$email', '$password');";
+
+
+            if ($conn->query($sql) === TRUE) {
+                echo "<br> <br> " . "inserted new entry with id ".$conn->insert_id;
+            } else {
+                die ("Error: " . $sql); //. "<br>" . $conn->error); //FIXME debug only
+            }
+
+
+
+            echo 'account created successfully. Please sign in.';
+
+
+            $conn->close();
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
     
     
@@ -137,16 +253,16 @@
         <h3>or</h3>
         <h2>Sign up:</h2>
         <p>Username:
-            <input type="text" name="username"/>
+            <input type="text" name="newUsername"/>
         </p>
         <p>Password:
-            <input type="password" name="password"/>
+            <input type="password" name="newPassword"/>
         </p>
         <p>Confirm Password:
-            <input type="password" name="password"/>
+            <input type="password" name="confirmPassword"/>
         </p>
         <p>Enter email:
-            <input type="text" name="email"/>
+            <input type="text" name="newEmail"/>
         </p>
     
         <button type="submit" name="signUp" value="signUp">sign up</button>
