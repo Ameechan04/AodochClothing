@@ -6,7 +6,6 @@
 
     
     
-    
     $host = "devweb2024.cis.strath.ac.uk";
     $user = get_user();
     $pass = get_password();
@@ -23,7 +22,7 @@
     if (!$result) {
         die("Query failed: " . $conn->error);
     }
-    
+
     $error_messages = [];
     $valid = false;
     $error_count = 0;
@@ -67,13 +66,18 @@
         }
     
         if ($match) {
-            if ( $accountPass = $row["password"] === $password) {
+            if ($row["password"] === $password) {
                 echo "<br>" . 'PASSWORDS MATCHED SIGN IN COMPLETE';
-
-                if ($valid) {
+                if ($row["admin"] == 1 && $valid) {
+                    echo 'YES';
                     $_SESSION['username'] = $username;
                     $_SESSION['signedin'] = true;
-                    header("Location: home.php");
+                    header("Location: admin.php");
+                    exit;
+                } elseif ($valid) {
+                    $_SESSION['username'] = $username;
+                    $_SESSION['signedin'] = true;
+                  //  header("Location: home.php");
                     exit;
                 }
                 exit;
@@ -85,12 +89,31 @@
     
     
     } elseif (isset($_POST["forgot"])) {
+        $match = false;
         if ($_POST["username"] === null || $_POST["username"] == '') {
             $error_count++;
             $error_messages[$error_count] = 'Please enter a username to get your password reset';
         } else {
             $username = strip_tags($_POST["username"]);
-            echo 'a reset link has been sent to the email linked to ' . $_POST["username"] ;
+            while ($row = $result->fetch_assoc()) {
+                if ($row["account_name"] === $username) {
+                    $match = true;
+                    break;
+                }
+            }
+
+            if ($match) {
+                $email = $row["email"];
+                mail($email, "Aodach Password Reset", "Dear ". $username . ",\nClick here to reset your password:\n" . "https://devweb2024.cis.strath.ac.uk/~xmb22143/Aodach%20Website/passwordReset.php\n\n" .  "If you didn't try to reset your password you can safely ignore this email.");
+                echo "<br>" . 'A reset link has been set to ' . $email;
+                echo "<br>" . 'Or directly access it here:';
+                ?>
+                <a href="https://devweb2024.cis.strath.ac.uk/~xmb22143/Aodach%20Website/passwordReset.php" >Reset Password </a>
+                <?php
+            } else {
+                echo "<br>" . 'No account was found with that name. Account names are case-sensitive.';
+            }
+
         }
     
     
@@ -186,19 +209,19 @@
 
 
 
-            $sql = "INSERT INTO `xmb22143`.`account` (`account_name`, `email`, `password`) 
-VALUES ('$NewUsername', '$email', '$password');";
+            $sql = "INSERT INTO `xmb22143`.`account` (`account_name`, `email`, `password`, `admin`) 
+VALUES ('$NewUsername', '$email', '$password' , '0');";
 
 
             if ($conn->query($sql) === TRUE) {
-                echo "<br> <br> " . "inserted new entry with id ".$conn->insert_id;
+               // echo "<br> <br> " . "inserted new entry with id ".$conn->insert_id;
             } else {
                 die ("Error: " . $sql); //. "<br>" . $conn->error); //FIXME debug only
             }
 
 
 
-            echo 'account created successfully. Please sign in.';
+            echo "<br><br>" . 'account created successfully. Please sign in.';
 
 
             $conn->close();
