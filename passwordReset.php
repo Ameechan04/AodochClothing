@@ -5,6 +5,9 @@ $passwordC = '';
 $error_count = 0;
 $error_messages = [];
 
+
+
+
 $host = "devweb2024.cis.strath.ac.uk";
 $user = get_user();
 $pass = get_password();
@@ -81,7 +84,7 @@ if ($match) {
     $sql = "UPDATE `account` SET `password` = '" . $password . "' WHERE `account`.`account_name` = '" . $row["account_name"] . "';";
 
     if ($conn->query($sql) === TRUE) {
-        // echo "<br> <br> " . "inserted new entry with id ".$conn->insert_id;
+        echo "<br>" . 'Password updated succesfully';
     } else {
         die ("Error: " . $sql); //. "<br>" . $conn->error); //FIXME debug only
     }
@@ -112,6 +115,9 @@ if ($match) {
     </p>
     <button type="submit" name="submit" value="submit">Submit</button>
 </form>
+
+<h3>Return to sign-in page:</h3>
+<a href="https://devweb2024.cis.strath.ac.uk/~xmb22143/Aodach%20Website/signin.php" >Return</a>
 </body>
 </html>
 
