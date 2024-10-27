@@ -3,8 +3,7 @@
 
 
     session_start();
-
-    
+ 
     
     $host = "devweb2024.cis.strath.ac.uk";
     $user = get_user();
@@ -111,7 +110,8 @@
                 <a href="https://devweb2024.cis.strath.ac.uk/~xmb22143/Aodach%20Website/passwordReset.php" >Reset Password </a>
                 <?php
             } else {
-                echo "<br>" . 'No account was found with that name. Account names are case-sensitive.';
+                $error_count++;
+                $error_messages[$error_count] = 'No account was found with that name. Account names are case-sensitive.';
             }
 
         }
