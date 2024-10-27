@@ -1,9 +1,8 @@
-    <?php
+<?php
     $username = '';
-    ?>
-    
-    <?php
-    
+
+
+    session_start();
 
     
     
@@ -25,15 +24,11 @@
         die("Query failed: " . $conn->error);
     }
     
-    echo "<p>" . $result->num_rows . " rows found</p>";
-    
     $error_messages = [];
     $valid = false;
     $error_count = 0;
     $password = '';
     if (isset($_POST["signIn"])) {
-    
-        echo 'SIGN IN CLICKED!';
     
         if (isset($_POST["username"]) && $_POST["username"] !== "") {
             $username = strip_tags($_POST["username"]);
@@ -57,7 +52,7 @@
         $match = false;
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                if ($row["username"] === $username) {
+                if ($row["account_name"] === $username) {
                     echo "<br>" . 'account found';
                     $match = true;
                     $accountPass = $row["password"];
@@ -74,12 +69,13 @@
         if ($match) {
             if ( $accountPass = $row["password"] === $password) {
                 echo "<br>" . 'PASSWORDS MATCHED SIGN IN COMPLETE';
-                ?>
-                <script>
-                    window.location.href = "home.php";
-                </script>
-    
-                <?php
+
+                if ($valid) {
+                    $_SESSION['username'] = $username;
+                    $_SESSION['signedin'] = true;
+                    header("Location: home.php");
+                    exit;
+                }
                 exit;
             } else {
                 $error_count++;
@@ -141,6 +137,7 @@
         if ($valid) {
             if ($password === $passwordC) {
                 $valid = true;
+                echo 'passwords match!'; //TODO REMOVE
             } else {
                 $valid = false;
                 $error_count++;
@@ -148,6 +145,7 @@
             }
         }
 
+        $email = '';
         if (isset($_POST["newEmail"]) && ($_POST["newEmail"] !== "") && filter_var($_POST["newEmail"], FILTER_VALIDATE_EMAIL)) {
             $email = strip_tags($_POST["newEmail"]);
         } else {
@@ -167,6 +165,18 @@
                 }
             }
         }
+        $result->data_seek(0);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                if ($row["email"] === $email) {
+                    $match = true;
+                    $error_count++;
+                    $error_messages[$error_count] = 'That email address is already used, please enter another';
+                    $valid = false;
+                    break;
+                }
+            }
+        }
 
 
         if ($valid && $email !== null) {
@@ -174,9 +184,7 @@
             mail($email, "Aodach Confirmation", "Dear ". $NewUsername . ",\nThank you for signing up to Aodach.\n" . "We hope you enjoy your time using our website.\n" . "Here's a link back to the sign in page: \nhttps://devweb2024.cis.strath.ac.uk/~xmb22143/Aodach%20Website/signin.php");
             echo "<br>" . 'A confirmation email has been sent to ' . $email;
 
-            $date = date("Y:m:d");
-            $time = date("H:i:s");
-            $dateTime = $date . ' ' . $time;
+
 
             $sql = "INSERT INTO `xmb22143`.`account` (`account_name`, `email`, `password`) 
 VALUES ('$NewUsername', '$email', '$password');";
@@ -195,25 +203,7 @@ VALUES ('$NewUsername', '$email', '$password');";
 
             $conn->close();
 
-
-
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
     
     
