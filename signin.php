@@ -3,7 +3,8 @@
 
 
     session_start();
- 
+
+    
     
     $host = "devweb2024.cis.strath.ac.uk";
     $user = get_user();
@@ -51,7 +52,7 @@
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 if ($row["account_name"] === $username) {
-                    echo "<br>" . 'account found';
+                    //echo "<br>" . 'account found';
                     $match = true;
                     $accountPass = $row["password"];
                     break;
@@ -76,7 +77,7 @@
                 } elseif ($valid) {
                     $_SESSION['username'] = $username;
                     $_SESSION['signedin'] = true;
-                  //  header("Location: home.php");
+                    header("Location: home.php");
                     exit;
                 }
                 exit;
@@ -118,7 +119,6 @@
     
     
     } elseif (isset($_POST["signUp"])) {
-        echo 'SIGN UP CLICKED!';
         $NewUsername = '';
         if (isset($_POST["newUsername"]) && $_POST["newUsername"] !== "") {
             $NewUsername = strip_tags($_POST["newUsername"]);
@@ -160,7 +160,7 @@
         if ($valid) {
             if ($password === $passwordC) {
                 $valid = true;
-                echo 'passwords match!'; //TODO REMOVE
+             //   echo 'passwords match!'; //TODO REMOVE
             } else {
                 $valid = false;
                 $error_count++;
@@ -232,9 +232,15 @@ VALUES ('$NewUsername', '$email', '$password' , '0');";
     
     if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($error_messages)) {
         echo "<br>";
+
+        ?>
+        <div class = "error_messages"> <?php
         foreach ($error_messages as $error) {
             echo $error . "<br>";
         }
+
+        ?>
+        </div> <?php
     }
     ?>
     
@@ -248,41 +254,46 @@ VALUES ('$NewUsername', '$email', '$password' , '0');";
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-    <h1>Aodach Clothing Store</h1>
-    <h2>Welcome to the newest fashion outlet to hit the streets of Glasgow.</h2>
-    <p> Aodach - pronounced OO-dakh - is the Scottish Gaelic word for clothes, highlighting our deep traditional links to the highlands of this country. </p>
-    <form action="signin.php" method="post">
-        <h2>Sign in:</h2>
-        <p>Username:
-            <input type="text" name="username" value = "<?php echo $username?>"/>
-        </p>
-        <p>Password:
-            <input type="password" name="password"/>
-        </p>
-        <button type="submit" name="signIn" value="signIn">sign in</button>
-        <button type="submit" name="forgot" value="forgot">forgot password</button>
-    </form>
-    <form action="signin.php" method="post">
-        <h3>or</h3>
-        <h2>Sign up:</h2>
-        <p>Username:
-            <input type="text" name="newUsername"/>
-        </p>
-        <p>Password:
-            <input type="password" name="newPassword"/>
-        </p>
-        <p>Confirm Password:
-            <input type="password" name="confirmPassword"/>
-        </p>
-        <p>Enter email:
-            <input type="text" name="newEmail"/>
-        </p>
-    
-        <button type="submit" name="signUp" value="signUp">sign up</button>
-    
-    
-    </form>
-    
+
+        <div id="topSection">
+        <h1>Aodach Clothing Store</h1>
+        <h2>Welcome to the newest fashion outlet to hit the streets of Glasgow.</h2>
+        <p> Aodach - pronounced OO-dakh - is the Scottish Gaelic word for clothes, highlighting our deep traditional links to the highlands of this country. </p>
+        </div>
+        <div id="loginBlock">
+        <form action="signin.php" method="post">
+            <h2>Sign in:</h2>
+            <p>Username:
+                <input type="text" name="username" value = "<?php echo $username?>"/>
+            </p>
+            <p>Password:
+                <input type="password" name="password"/>
+            </p>
+            <button type="submit" name="signIn" value="signIn">sign in</button>
+            <button type="submit" name="forgot" value="forgot">forgot password</button>
+        </form>
+        <form action="signin.php" method="post">
+            <h3>or</h3>
+            <h2>Sign up:</h2>
+            <p>Username:
+                <input type="text" name="newUsername"/>
+            </p>
+            <p>Password:
+                <input type="password" name="newPassword"/>
+            </p>
+            <p>Confirm Password:
+                <input type="password" name="confirmPassword"/>
+            </p>
+            <p>Enter email:
+                <input type="text" name="newEmail"/>
+            </p>
+
+            <button type="submit" name="signUp" value="signUp">sign up</button>
+
+
+        </form>
+    </div>
+
     </body>
     </html>
     
