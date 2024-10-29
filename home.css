@@ -1,0 +1,229 @@
+div {   /*makes the text colour white*/
+    color: white;
+}
+
+body {  /* keep the same for consitency*/
+    font-family: sans-serif;
+    margin: 0;
+    color:white;
+}
+#blankheader {
+    /*the blank header tag effects everything which is above the contents table*/
+    background-size: cover;
+    padding: 50px 00px 200px 00px;
+}
+
+/*the title section effects the theme name area (not the larger sub-theme text*/
+#titlesection{
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+
+#theme {
+    padding: 25px 100px 25px 100px;
+}
+
+#welcome {
+    padding: 25px 100px 1px 100px;
+}
+
+/*code for the main image which has the text in front of it*/
+#centralimage {
+    width: 50%;
+    padding:50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 0;
+}
+
+
+/*NAV BAR CODE*/
+#navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.navcontent {
+    float: left;
+    border-right: 1px solid #bbb;
+}
+
+.navcontent a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+.navcontent a:hover {
+    background-color: #111;
+}
+
+
+#refbutton {
+    float:right;
+}
+
+#rightbutton2 {
+    float: right;
+}
+
+.active {
+    background-color: #3e6042;
+}
+
+/*END OF NAV BAR CSS*/
+
+
+#subtheme {
+    padding: 200px 100px 1px 100px;
+    font-size: 75px;
+
+
+}
+
+#maincontent{padding-left:100px;
+    padding-right:100px;
+    padding-top: 25px;
+}
+
+#generalinfo {
+    background-color: #333;
+    padding: 15px;
+}
+
+h2 {
+    margin-top: 0px;
+}
+
+.subtopic {
+    background-color: #333;
+    padding: 15px;
+    margin-top: 10px;
+
+}
+
+
+
+/*if you want to quickly centre and image just add it to the centre class. Optional*/
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+/*contents table code*/
+#table {
+    background-color: white;
+    color: black;
+    width: 200px;
+    padding: 0px 4px 8px 4px;
+    text-align: left;
+    border: 5px solid black;
+}
+
+#newProducts {
+
+    background-size: 100%;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 50px;
+    color: white;
+    width: auto;
+    padding: 20px 20px 8px 20px;
+    text-align: center;
+    font-size: 20px;
+    border: 5px solid black;
+}
+
+#contentstitle {
+    border: 5px solid black;
+    margin-top: 5px;
+    text-align:center;
+}
+
+ol a:link {
+    color:black;
+}
+
+ol a:visited {
+    color:black;
+}
+/*end of contents table*/
+
+button {
+    background-color: red;
+    border: 2px solid white;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 12px;
+    opacity: 1;
+    transition: 0.3s;
+}
+
+button:hover{
+    opacity: 0.8;
+}
+
+footer {
+    color: white;
+    padding-left: 100px;
+}
+/*pic2, pic3 are optional layouts for the main content images. pic 1 doesn't acutally have any CSS*/
+.pic2 {
+    padding-left: 300px;
+    padding-right: 100px;
+}
+
+.pic3 {
+    float:right;
+}
+
+
+.scroll-down-arrow {
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 5rem;
+    color: white;
+    animation: bounce 3.0s infinite;
+    cursor: pointer;
+}
+
+/* Arrow bounce animation */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+    }
+    40% {
+        transform: translateY(-10px) translateX(-50%);
+    }
+    60% {
+        transform: translateY(-5px) translateX(-50%);
+    }
+}
+
+.product_images {
+    cursor: pointer;
+}
+
+
+.product_images:hover{
+    border: 3px solid white;
+    transform: scale(1.1);
+}
