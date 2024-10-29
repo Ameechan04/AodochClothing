@@ -3,8 +3,7 @@
 
 
     session_start();
-
-    
+   
     
     $host = "devweb2024.cis.strath.ac.uk";
     $user = get_user();
@@ -105,10 +104,14 @@
             if ($match) {
                 $email = $row["email"];
                 mail($email, "Aodach Password Reset", "Dear ". $username . ",\nClick here to reset your password:\n" . "https://devweb2024.cis.strath.ac.uk/~xmb22143/Aodach%20Website/passwordReset.php\n\n" .  "If you didn't try to reset your password you can safely ignore this email.");
-                echo "<br>" . 'A reset link has been set to ' . $email;
-                echo "<br>" . 'Or directly access it here:';
                 ?>
+                <div class="reset_message">
+
+                    <p>A reset link has been sent to <?php echo $email?></p>
+                    <p>Or directly access it here:
                 <a href="https://devweb2024.cis.strath.ac.uk/~xmb22143/Aodach%20Website/passwordReset.php" >Reset Password </a>
+                    </p>
+                </div>
                 <?php
             } else {
                 $error_count++;
@@ -149,13 +152,15 @@
         }
 
         $passwordC = '';
-        if (isset($_POST["confirmPassword"]) && $_POST["confirmPassword"] !== "") {
-            $passwordC = strip_tags($_POST["confirmPassword"]);
-            $valid = true;
-        } else {
-            $valid = false;
-            $error_count++;
-            $error_messages[$error_count] = 'Please confirm your password';
+        if ($valid) {
+            if (isset($_POST["confirmPassword"]) && $_POST["confirmPassword"] !== "") {
+                $passwordC = strip_tags($_POST["confirmPassword"]);
+                $valid = true;
+            } else {
+                $valid = false;
+                $error_count++;
+                $error_messages[$error_count] = 'Please confirm your password';
+            }
         }
         if ($valid) {
             if ($password === $passwordC) {
@@ -254,20 +259,17 @@ VALUES ('$NewUsername', '$email', '$password' , '0');";
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+    <img class="logo" src="images/logoBlackBack.png" alt="logo" style="width: 300px; height: auto;">
 
-        <div id="topSection">
-        <h1>Aodach Clothing Store</h1>
-        <h2>Welcome to the newest fashion outlet to hit the streets of Glasgow.</h2>
-        <p> Aodach - pronounced OO-dakh - is the Scottish Gaelic word for clothes, highlighting our deep traditional links to the highlands of this country. </p>
-        </div>
+
         <div id="loginBlock">
         <form action="signin.php" method="post">
             <h2>Sign in:</h2>
             <p>Username:
-                <input type="text" name="username" value = "<?php echo $username?>"/>
+                <input class = "inputbox" type="text" name="username" value = "<?php echo $username?>"/>
             </p>
             <p>Password:
-                <input type="password" name="password"/>
+                <input class = "inputbox" type="password" name="password"/>
             </p>
             <button type="submit" name="signIn" value="signIn">sign in</button>
             <button type="submit" name="forgot" value="forgot">forgot password</button>
@@ -276,16 +278,16 @@ VALUES ('$NewUsername', '$email', '$password' , '0');";
             <h3>or</h3>
             <h2>Sign up:</h2>
             <p>Username:
-                <input type="text" name="newUsername"/>
+                <input class = "inputbox" type="text" name="newUsername"/>
             </p>
             <p>Password:
-                <input type="password" name="newPassword"/>
+                <input class = "inputbox" type="password" name="newPassword"/>
             </p>
             <p>Confirm Password:
-                <input type="password" name="confirmPassword"/>
+                <input class = "inputbox" type="password" name="confirmPassword"/>
             </p>
             <p>Enter email:
-                <input type="text" name="newEmail"/>
+                <input  class = "inputbox" type="text" name="newEmail"/>
             </p>
 
             <button type="submit" name="signUp" value="signUp">sign up</button>
