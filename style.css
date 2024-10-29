@@ -1,31 +1,30 @@
-div {   /*makes the text colour white*/
+* {
+    box-sizing: border-box;
+
+}
+
+div {
     color: white;
 }
 
-body {  /* keep the same for consitency*/
-    background-image: url('images/login.jpg');
-    background-size: 100%;
-    font-family: sans-serif;
+body {
+    background-image: url('images/stormysea.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
     margin: 0;
+
+    font-family: sans-serif;
     color:white;
     text-align: center;
 }
 
-
-#centralimage {
-    width: 50%;
-    padding:50px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    z-index: 0;
+.logo {
+    padding: 20px 20px 10px 20px;
+    border-radius: 50px;
 }
 
-
-
-h2 {
-    margin-top: 0px;
-}
 
 button {
     background-color: #3e6042;
@@ -38,30 +37,24 @@ button {
     border-radius: 12px;
     opacity: 1;
     transition: 0.3s;
+    /* margin-left: 10px; */
+
+
 }
 
+.inputbox {
+    display: block;
+    color: white;
+    width: 100%;
+    margin: 10px 0px 10px 0px;
+    padding: 10px;
+    background-color: #333333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
 button:hover{
     opacity: 0.8;
-}
-
-#loginBlock {
-    background-color: #333333;
-    opacity: 0.8;
-    margin: 50px 550px;
-    padding: 20px 20px 20px 20px;
-    border-radius: 30px;
-}
-
-#topSection {
-    opacity: 0.8;
-    background-color: #333333;
-    color: white;
-    margin-top: 10px;
-    margin-left: 200px;
-    margin-right: 200px;
-    padding: 1px 20px 20px 20px;
-    margin-bottom: 20px;
-    border-radius: 30px;
 }
 
 .error_messages {
@@ -69,8 +62,29 @@ button:hover{
     font-size: 25px;
     text-align: center;
     background-color: #333333;
+
     margin: 20px 550px 20px 550px;
     padding: 20px 20px 20px 20px;
     border-radius: 30px;
 
+}
+
+.reset_message {
+    color: mediumpurple;
+    font-size: 15px;
+    text-align: center;
+    background-color: #333333;
+    margin: 1px 450px 20px 450px;
+    padding: 1px 20px 1px 20px;
+    border-radius: 30px;
+
+    border: 2px solid mediumpurple;
+}
+
+#loginBlock {
+    background-color: #333333;
+    opacity: 0.8;
+    margin: 1% 35%;
+    padding: 20px 20px 20px 20px;
+    border-radius: 30px;
 }
